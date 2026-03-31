@@ -1,0 +1,26 @@
+timeStamp,temp,flame,gas,distance,buzzerStatus,exhaustStatus,cookingStatus,reasoningTime,endToEndTime,backendTime
+29-10-2025 16:29:13,0,1,0,0,st_actOFF,st_actOFF,st_cookNO,0,0,172
+29-10-2025 16:29:15,0,1,0,0,st_actOFF,st_actOFF,st_cookNO,0,20,20
+29-10-2025 16:29:17,28,1,0,36.414,st_actOFF,st_actOFF,st_cookNO,141,17,13
+29-10-2025 16:29:19,28,1,0,36.414,st_actOFF,st_actOFF,st_cookNO,141,17,14
+29-10-2025 16:29:21,28,1,0,36.431,st_actOFF,st_actOFF,st_cookNO,92,17,19
+29-10-2025 16:29:23,28,1,0,36.431,st_actOFF,st_actOFF,st_cookNO,92,17,10
+29-10-2025 16:29:25,28,1,0,36.414,st_actOFF,st_actOFF,st_cookNO,92,16,9
+29-10-2025 16:29:27,28,1,0,36.414,st_actOFF,st_actOFF,st_cookNO,92,16,17
+29-10-2025 16:29:29,28,1,0,36.414,st_actOFF,st_actOFF,st_cookNO,93,16,9
+29-10-2025 16:29:31,28,1,0,36.414,st_actOFF,st_actOFF,st_cookNO,93,16,9
+29-10-2025 16:29:33,28,1,0,36.414,st_actOFF,st_actOFF,st_cookNO,90,15,13
+29-10-2025 16:29:35,28,1,0,36.414,st_actOFF,st_actOFF,st_cookNO,90,15,10
+29-10-2025 16:29:37,28,1,0,36.873,st_actOFF,st_actOFF,st_cookNO,88,20,13
+29-10-2025 16:29:39,28,1,0,36.873,st_actOFF,st_actOFF,st_cookNO,88,20,17
+29-10-2025 16:29:42,28,1,0,36.873,st_actOFF,st_actOFF,st_cookNO,87,16,15
+29-10-2025 16:29:44,28,1,0,36.873,st_actOFF,st_actOFF,st_cookNO,87,16,13
+29-10-2025 16:29:46,28,0,0,36.431,st_actON,st_actON,st_cookNO,94,16,9
+29-10-2025 16:29:48,28,0,0,36.431,st_actON,st_actON,st_cookNO,94,16,14
+29-10-2025 16:29:50,28,0,0,36.414,st_actON,st_actON,st_cookNO,89,17,15
+29-10-2025 16:29:52,28,0,0,36.414,st_actON,st_actON,st_cookNO,89,17,10
+29-10-2025 16:29:54,28,0,0,37.57,st_actON,st_actON,st_cookNO,85,17,10
+29-10-2025 16:29:56,28,0,0,37.57,st_actON,st_actON,st_cookNO,85,17,12
+29-10-2025 16:29:58,28,1,0,36.652,st_actOFF,st_actOFF,st_cookNO,83,19,13
+29-10-2025 16:30:00,28,1,0,36.652,st_actOFF,st_actOFF,st_cookNO,83,19,14
+29-10-2025 16:30:02,28,1,0,37.111,st_actOFF,st_actOFF,st_cookNO,90,16,12

@@ -1,0 +1,176 @@
+// =======================================
+// reasoning-Inout.js
+// =======================================
+
+const express = require("express");
+const axios = require("axios");
+const router = express.Router();
+const bodyParser = require("body-parser");
+
+router.use(bodyParser.json());
+
+// ============================
+// 🔧 Konfigurasi Dasar
+// ============================
+axios.defaults.timeout = 5000;
+
+const API = "http://192.168.43.238";
+
+const FUSEKI_BASE = `${API}:3030`;
+const DATASET = "areaInout-2";
+const NS = "http://www.semanticweb.org/msi/ontologies/2025/5/thesis-1#";
+
+const FUSEKI_UPDATE = `${FUSEKI_BASE}/${DATASET}/update`;
+
+// Backend yang memonitor waktu dan status
+const BACKEND_MONITOR = `${API}:5000`;
+
+// Menyimpan perintah terbaru untuk diambil IoT
+let latestCommand = {
+  lampStatus: "st_actOFF",
+  reasoningTime: 0,
+  timestamp: Date.now(),
+};
+
+//format waktu kustom: YYYY-MM-DD:hh-mm-ss
+function getFormattedTimestamp() {
+  const now = new Date();
+  const YYYY = now.getFullYear();
+  const MM = String(now.getMonth() + 1).padStart(2, "0");
+  const DD = String(now.getDate()).padStart(2, "0");
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  const ss = String(now.getSeconds()).padStart(2, "0");
+  return `${YYYY}-${MM}-${DD}:${hh}-${mm}-${ss}`;
+}
+
+// ============================
+// 🧩 Fungsi Utilitas
+// ============================
+async function updateFuseki(sparqlQuery) {
+  try {
+    await axios.post(
+      FUSEKI_UPDATE,
+      `update=${encodeURIComponent(sparqlQuery)}`,
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+    console.log("✅ Update ke Fuseki berhasil");
+  } catch (err) {
+    console.error("❌ Gagal update Fuseki:", err.message);
+  }
+}
+
+// ============================
+// ⚙️ Fungsi Reasoning Utama
+// ============================
+function reasoningLogic(personCount) {
+  let lamp = "st_actOFF";
+  if (personCount > 0) {
+    lamp = "st_actON";
+  }
+  return { lamp };
+}
+
+// ============================
+// 📡 Endpoint 1: POST /api/reasoner-inout/input
+// ============================
+router.post("/api/reasoner-inout/input", async (req, res) => {
+  try {
+    const { personCount, timestamp_iot_inout } = req.body;
+
+    if (personCount === undefined) {
+      return res.status(400).json({ error: "Data sensor tidak lengkap" });
+    }
+
+    console.log("📥 Data IoT-inout:", { personCount });
+
+    const reasoningStart = Date.now();
+
+    // Jalankan reasoning
+    const { lamp } = reasoningLogic(personCount);
+
+    // Buat SPARQL update query
+    const updateQuery = `
+      PREFIX tb: <${NS}>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      DELETE {
+        tb:param_person tb:ASdp_hasPERSONvalue ?oldPerson .
+        tb:act_AS_Lamp tb:M_hasActionStatus ?oldLamp .
+      }
+      INSERT {
+        tb:param_person a tb:parameter ;
+        tb:ASdp_hasPERSONvalue "${personCount}"^^xsd:integer .
+        tb:act_AS_Lamp tb:M_hasActionStatus tb:${lamp} .
+      }
+      WHERE {
+        OPTIONAL { tb:param_person tb:ASdp_hasPERSONvalue ?oldPerson . }
+        OPTIONAL { tb:act_AS_Lamp tb:M_hasActionStatus ?oldLamp . }
+      }
+    `;
+
+    await updateFuseki(updateQuery);
+
+    // Hitung waktu reasoning
+    const reasoningEnd = Date.now();
+    const reasoningTime = reasoningEnd - reasoningStart;
+    const timestamp_reasoner_inout = getFormattedTimestamp();
+
+    // Simpan perintah terbaru
+    latestCommand = {
+      lampStatus: lamp,
+      reasoningTime,
+      timestamp_iot_inout: timestamp_iot_inout || getFormattedTimestamp(),
+      timestamp_reasoner_inout,
+    };
+
+    // Kirim hasil reasoning & waktu ke backend
+    await axios.post(`${BACKEND_MONITOR}/api/backendinout/reasoningtime`, {
+      reasoningTime,
+      timestamp_reasoner_inout,
+      timestamp_iot_inout,
+    });
+
+    res.json({
+      message: "✅ Data sensor diproses & reasoning selesai",
+      lampStatus: lamp,
+      reasoningTime,
+      timestamp_reasoner_inout,
+      timestamp_iot_inout,
+    });
+  } catch (err) {
+    console.error("❌ Error di /reasoner-inout/input:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ============================
+// ⚙️ Endpoint 2: GET /api/reasoner-inout/command
+// ============================
+router.get("/api/reasoner-inout/command", (req, res) => {
+  res.json(latestCommand);
+});
+
+// ============================
+// ⏱ Endpoint 3: POST /api/reasoner-inout/endtoend
+// ============================
+router.post("/api/reasoner-inout/endtoend", async (req, res) => {
+  const { endToEndTime } = req.body;
+
+  if (endToEndTime === undefined) {
+    return res.status(400).json({ error: "Missing endToEndTime" });
+  }
+
+  try {
+    await axios.post(`${BACKEND_MONITOR}/api/backendinout/endtoendtime`, {
+      endToEndTime,
+      timestamp: new Date().toISOString(),
+    });
+
+    res.json({ message: "✅ End-to-End time dikirim ke backend" });
+  } catch (err) {
+    console.error("❌ Gagal kirim End-to-End:", err.message);
+    res.status(500).json({ error: "Failed to forward End-to-End time" });
+  }
+});
+
+module.exports = router;
