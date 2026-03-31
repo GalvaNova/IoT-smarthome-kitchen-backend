@@ -20,13 +20,13 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 25200, 60000);
 // ==========================
 // WiFi Setup
 // ==========================
-const char* ssid = "Sitanggang";
-const char* password = "qwertyuiop";
+const char* ssid = "..";
+const char* password = "..";
 
 // ==========================
 // Reasoner Endpoint
 // ==========================
-#define REASONER_HOST "192.168.43.238"
+#define REASONER_HOST "url"
 #define REASONER_PORT 5000
 
 String reasonerSensorURL  = "http://" + String(REASONER_HOST) + ":" + String(REASONER_PORT) + "/api/reasoner-wash/input";

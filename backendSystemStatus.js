@@ -17,9 +17,9 @@ const TIMEOUT = 3000;
 router.get("/api/system-status", async (req, res) => {
   const backend = true;
 
-  const cookAlive = await check("http://192.168.43.238:5000/api/cook/latest");
-  const washAlive = await check("http://192.168.43.238:5000/api/wash/latest");
-  const inoutAlive = await check("http://192.168.43.238:5000/api/inout/latest");
+  const cookAlive = await check("http://url:5000/api/cook/latest");
+  const washAlive = await check("http://url:5000/api/wash/latest");
+  const inoutAlive = await check("http://url:5000/api/inout/latest");
 
   res.json({
     backend,

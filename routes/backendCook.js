@@ -16,7 +16,7 @@ telegramNotifier.initNotifier(bot);
 // log activity
 const activityLogger = require("../utils/activityLoggerCook");
 
-const API = "192.168.43.238";
+const API = "url";
 
 // ===============================
 // 🔧 Konfigurasi Fuseki & Reasoner

@@ -11,7 +11,7 @@ const logger = require("../utils/loggerInout");
 const TELEGRAM_COOLDOWN = 10000; // ms
 
 // API base
-const API = "http://192.168.43.238";
+const API = "url";
 
 // ===============================
 // 🔧 Konfigurasi Fuseki & Reasoner

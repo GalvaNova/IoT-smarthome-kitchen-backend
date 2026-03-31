@@ -14,7 +14,7 @@ router.use(bodyParser.json());
 // ============================
 axios.defaults.timeout = 5000;
 
-const API = "192.168.43.238";
+const API = "url";
 const BACKEND_MONITOR = `http://${API}:5000`;
 
 const FUSEKI_BASE = `http://${API}:3030`;

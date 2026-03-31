@@ -4,9 +4,7 @@ const { sendMessage } = require("../bot/sender");
 module.exports = {
   async handle(chatId) {
     try {
-      const res = await axios.get(
-        "http://192.168.43.238:5000/api/inout/latest"
-      );
+      const res = await axios.get("http://url:5000/api/inout/latest");
       const d = res.data;
 
       sendMessage(

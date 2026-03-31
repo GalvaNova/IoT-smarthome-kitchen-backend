@@ -19,7 +19,7 @@ const activityLogger = require("../utils/activityLoggerWash");
 // ===============================
 // Konfigurasi Fuseki & Reasoner
 // ===============================
-const FUSEKI_QUERY = "http://192.168.43.238:3030/areaWash-2/query";
+const FUSEKI_QUERY = "http://url:3030/areaWash-2/query";
 
 let lastUpdateTimeWash = Date.now();
 

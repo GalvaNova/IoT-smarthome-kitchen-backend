@@ -14,7 +14,7 @@ router.use(bodyParser.json());
 // ============================
 axios.defaults.timeout = 5000;
 
-const API = "http://192.168.43.238";
+const API = "url";
 
 const FUSEKI_BASE = `${API}:3030`;
 const DATASET = "areaInout-2";

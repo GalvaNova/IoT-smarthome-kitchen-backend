@@ -15,15 +15,13 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 25200, 60000);
 #define RELAY_ACTIVE_STATE HIGH
 
 //WiFi Setup
-const char* ssid = "Sitanggang";
-const char* password = "qwertyuiop";
+const char* ssid = "..";
+const char* password = "..";
 
-// const char* ssid = "GREDYNOV";
-// const char* password = "12525500";
 
 //Reasoner Endpoint
-#define REASONER_HOST "192.168.43.238"
-// #define REASONER_HOST "192.168.100.30"
+#define REASONER_HOST "url"
+// #define REASONER_HOST "url"
 #define REASONER_PORT 5000
 
 String reasonerSensorURL   = "http://" + String(REASONER_HOST) + ":" + String(REASONER_PORT) + "/api/reasoner-inout/input";
