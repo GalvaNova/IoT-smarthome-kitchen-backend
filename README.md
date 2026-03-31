@@ -56,7 +56,7 @@ IoT-smarthome-kitchen-backend/
 
 ### prerequisite
 
-- Node.js v16 atau lebih baru
+- Node.js v16
 - npm
 - SPARQL / apache jena fuseki
 - nodeMCU / other mcu
@@ -82,7 +82,6 @@ IoT-smarthome-kitchen-backend/
 
    ```env
    PORT=3000
-   MQTT_BROKER=mqtt://localhost:1883
    TELEGRAM_BOT_TOKEN=your_telegram_bot_token
    TELEGRAM_CHAT_ID=your_chat_id
    ```
